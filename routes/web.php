@@ -30,19 +30,13 @@ Route::middleware(['auth:web'])->group(function () {
     // Routes accessible to regular users
 });
 
-Route::middleware(['auth:admin'])->group(function () {
+Route::middleware(['auth:admin'])->prefix('admin/')->group(function () {
     
-    Route::get('/admin/dashboard', function(){
-        echo 'Admin login success. work in progress!!
-            <a class="dropdown-item" href="{{ route(\'logout\') }}"
-                                   onclick="event.preventDefault();
-                                                 document.getElementById(\'logout-form\').submit();">
-                                    {{ __(\'Logout\') }}
-                                </a>
-
-                                <form id="logout-form" action="{{ route(\'logout\') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
-        ';
+    Route::get('dashboard', function(){
+        return view('admin/dashboard');
     })->name('admin.dashboard');
+
+    Route::resources([
+        'categories' => App\Http\Controllers\CategoryController::class
+    ]);
 });
