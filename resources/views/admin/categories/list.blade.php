@@ -5,13 +5,15 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">DataTable with default features</h3>
+                <h3 class="card-title">List of all categories</h3>
             </div>
+            
             <!-- /.card-header -->
             <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
+                            <th>image</th>
                             <th>Title</th>
                             <th>Description</th>
                             <th>Action(s)</th>
@@ -19,18 +21,18 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach($categories as $category)
                         <tr>
-                            <td>Trident</td>
-                            <td>Internet Explorer 4.0 </td>
-                            <td>Win 95+</td>
-                            
+                            <td><img src="{{$category->image}}" style="width:100px;"></td>
+                            <td>{{$category->title}}</td>
+                            <td>{{$category->description}}</td>
+                            <td>
+                                <a href="" class="btn btn-primary">Edit</a>
+                                <a href="" class="btn btn-danger">Delete</a>
+                            </td>
                         </tr>
-                        <tr>
-                            <td>Trident</td>
-                            <td>Internet Explorer 5.0 </td>
-                            <td>Win 95+</td>
-                            
-                        </tr>
+                        @endforeach
+                        
                         
                 </table>
             </div>

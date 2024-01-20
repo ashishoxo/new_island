@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -11,7 +12,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('admin.categories.list');
+        $categories = Category::all();
+        // dd($categories);
+        return view('admin.categories.list')->with(['categories'=>$categories]);
     }
 
     /**
@@ -27,7 +30,21 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'image' => 'required|file|mimes:jpg,png|max:2048',
+        ]);
+
+        $path = \Storage::disk('s3')->put('categories', $request->image);
+
+        Category::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => $path,
+        ]);
+        // $path = \Storage::disk('s3')->url($path);
+        return redirect()->route('categories.index');
     }
 
     /**
