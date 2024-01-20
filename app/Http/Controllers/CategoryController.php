@@ -33,7 +33,7 @@ class CategoryController extends Controller
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'image' => 'required|file|mimes:jpg,png|max:2048',
+            'image' => 'required|file|mimes:jpg,png|max:12000',
         ]);
 
         $path = \Storage::disk('s3')->put('categories', $request->image);
