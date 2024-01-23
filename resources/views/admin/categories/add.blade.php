@@ -30,7 +30,7 @@
 							@enderror
 	                    </div>
 	                    <div class="form-group">
-							<label for="exampleInputFile">File input</label>
+							<label for="exampleInputFile">Category Image</label>
 							<input type="file" class="form-control" id="exampleInputFile" name="image" required>
 							@error('image')
 							    <div class="error">{{ $message }}</div>

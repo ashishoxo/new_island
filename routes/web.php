@@ -37,6 +37,7 @@ Route::middleware(['auth:admin'])->prefix('admin/')->group(function () {
     })->name('admin.dashboard');
 
     Route::resources([
-        'categories' => App\Http\Controllers\CategoryController::class
+        'categories' => App\Http\Controllers\CategoryController::class,
+        'products' => App\Http\Controllers\ProductController::class
     ]);
 });
