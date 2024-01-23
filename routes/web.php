@@ -22,6 +22,8 @@ Route::get('/cart', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/product/{category_id}', [App\Http\Controllers\HomeController::class, 'products'])->name('home.products');
+Route::get('/product-detail/{product_id}', [App\Http\Controllers\HomeController::class, 'productDetails'])->name('home.product.details');
 
 Route::get('/admin/login', [App\Http\Controllers\AdminAuth\LoginController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin/login', [App\Http\Controllers\AdminAuth\LoginController::class, 'login']);

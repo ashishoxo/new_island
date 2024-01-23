@@ -21,7 +21,7 @@
             @endphp
 
             @foreach($categories as $category)
-            <div class="col-md-6 col-lg-4 mb-5">
+            <div class="col-md-6 col-lg-4 mb-5" onclick="window.location='{{route('home.products',$category->id)}}';">
                 <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1" style="border:1px solid #e8e8e8">
                     <div style="max-height: 250px;overflow: hidden;">
                         
