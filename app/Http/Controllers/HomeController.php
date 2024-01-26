@@ -42,4 +42,10 @@ class HomeController extends Controller
 
         return view('product_details')->with(['product'=>$product]);
     }
+
+
+    public function welcome()
+    {
+        return view('welcome');
+    }
 }

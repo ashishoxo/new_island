@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CartItem;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class CartItemController extends Controller
 {
@@ -14,7 +15,7 @@ class CartItemController extends Controller
     {
         //
         if(empty(\Auth::user())){
-            session_start();
+            
 
             $session_products =  $_SESSION; 
 
@@ -46,46 +47,47 @@ class CartItemController extends Controller
     public function store(Request $request)
     {
         // dd(\Auth::user());
-        if(empty(\Auth::user())){
+        // if(empty(\Auth::user())){
 
-            session_start();
+        
 
-            $session_products =  $_SESSION;   
-                     
-            $is_already_exist = false;
-            
-            if(isset($session_products['new_cart'])){
+        $session_products =  $_SESSION;   
+                 
+        $is_already_exist = false;
+        
+        if(isset($session_products['new_cart'])){
 
-                foreach ($session_products['new_cart'] as $key => $product) {
-                    // dump(1);
-                    if($product['product_id'] == $request->product_id && $product['size'] == $request->size){
-                        // dump(2);
-                        $session_products['new_cart'][$key]['quantity'] = $request->quantity;
-                        
-                        $is_already_exist = true;                    
-                    }
+            foreach ($session_products['new_cart'] as $key => $product) {
+                // dump(1);
+                if($product['product_id'] == $request->product_id && $product['size'] == $request->size){
+                    // dump(2);
+                    $session_products['new_cart'][$key]['quantity'] = $request->quantity;
+                    
+                    $is_already_exist = true;                    
                 }
-            
             }
+        
+        }
+        
+        if(!$is_already_exist){
+
             
-            if(!$is_already_exist){
+            $session_products['new_cart'][] = [
+                'product_id' => $request->product_id,
+                'size' => $request->size,
+                'quantity' => $request->quantity
+            ];
+            
+        }
 
-                
-                $session_products['new_cart'][] = [
-                    'product_id' => $request->product_id,
-                    'size' => $request->size,
-                    'quantity' => $request->quantity
-                ];
-                
-            }
+        $_SESSION['new_cart'] = $session_products['new_cart'];
 
-            $_SESSION['new_cart'] = $session_products['new_cart'];
-        }else{
+        if(!empty(\Auth::user())){
 
             $cartItems = \Auth::user()->cartItems;
 
             
-            $is_already_exist = false;
+            $is_already_exist_auth = false;
 
             if(!empty($cartItems)){
  
@@ -100,13 +102,13 @@ class CartItemController extends Controller
                             'quantity' => $request->quantity
                         ]);
 
-                        $is_already_exist = true;  
+                        $is_already_exist_auth = true;  
                     }
                 }   
 
             }      
 
-            if(!$is_already_exist){
+            if(!$is_already_exist_auth){
                 $cartItem = CartItem::create([
                     'product_id' => $request->product_id,
                     'size' => $request->size,
@@ -118,8 +120,7 @@ class CartItemController extends Controller
                 
         }
 
-
-       
+        return new JsonResponse(["status"=>"success","message"=>"✔ Product has been added to the cart.","count"=>count($_SESSION['new_cart'])], 200);
     }
 
     /**

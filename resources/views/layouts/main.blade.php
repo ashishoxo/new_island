@@ -30,6 +30,15 @@
                 min-height: 400px;
                 margin-top: 40px;
             }
+            .cart-count{
+                position: absolute;
+                font-size: 12px;
+                background: red;
+                border-radius: 50%;
+                width: 18px;
+                top: 4px;
+                text-align: center;
+            }
         </style>
         {!! htmlScriptTagJsApi() !!}
     </head>
@@ -44,7 +53,14 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a href="{{route('cart.index')}}" class="nav-link py-3 px-0 px-lg-3 rounded"><ion-icon name="cart-outline" class="icon-size"></ion-icon>Cart</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a href="{{route('cart.index')}}" class="nav-link py-3 px-0 px-lg-3 rounded position-relative"><ion-icon name="cart-outline" class="icon-size"></ion-icon>Cart
+                            @php
+                                $count = null;
+                                if(isset($_SESSION['new_cart']))
+                                    $count = count($_SESSION['new_cart']);
+                            @endphp
+                            <span class="cart-count">{{$count}}</span>
+                        </a></li>
                         @guest
                         <li class="nav-item mx-0 mx-lg-1"><a href="{{route('register')}}" class="nav-link py-3 px-0 px-lg-3 rounded"><ion-icon name="reader-outline" class="icon-size"></ion-icon>Register</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a href="{{route('login')}}" class="nav-link py-3 px-0 px-lg-3 rounded"><ion-icon name="log-in-outline" class="icon-size"></ion-icon>Login</a></li>

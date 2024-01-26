@@ -20,7 +20,7 @@
                     <div class="ps-lg-3">
                         <h4 class="title text-dark"> {{$product->name}} </h4>
                         <div class="d-flex flex-row my-3">
-                            <div class="text-warning mb-1 me-2">
+                            {{-- <div class="text-warning mb-1 me-2">
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star"></i>
@@ -29,11 +29,11 @@
                                 <span class="ms-1"> 4.5 </span>
                             </div>
                             <span class="text-muted">
-                                <i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders </span>
-                            <span class="text-success ms-2">In stock</span>
+                                <i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders </span> --}}
+                            <span class="text-success">In stock</span>
                         </div>
                         <div class="mb-3">
-                            <span class="h5">${{$product->varients[0]->price}}</span>
+                            <span class="h5 product-price">${{$product->varients[0]->price}}</span>
                             <span class="text-muted"></span>
                         </div>
                         <p> {{$product->description}} </p>
@@ -42,9 +42,9 @@
                         <div class="row mb-4">
                             <div class="col-md-4 col-6">
                                 <label class="mb-2">Size</label>
-                                <select class="form-select border border-secondary" id="varient"  style="height: 35px;">
+                                <select class="form-select border border-secondary" id="varient"  style="height: 40px;">
                                     @foreach($product->varients as $varient)
-                                    <option>{{$varient->size}}</option>
+                                    <option data-price="{{$varient->price}}">{{$varient->size}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -62,11 +62,12 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
-                        <a href="#" class="btn btn-primary shadow-0 add-item-to-cart" data-product-id="{{$product->id}}" data-url="{{route('cart.store')}}">
+                        {{-- <a href="#" class="btn btn-warning shadow-0"> Buy now </a> --}}
+                        <a class="btn btn-primary shadow-0 add-item-to-cart" data-product-id="{{$product->id}}" data-url="{{route('cart.store')}}">
                             <i class="me-1 fa fa-shopping-basket"></i> Add to cart </a>
-                        <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3">
-                            <i class="me-1 fa fa-heart fa-lg"></i> Save </a>
+                        {{-- <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> --}}
+                            {{-- <i class="me-1 fa fa-heart fa-lg"></i> Save </a> --}}
+                        <div class="text-success success-message mt-2"></div>
                     </div>
                 </main>
             </div>
@@ -107,11 +108,23 @@
                     "size":size,
                     "product_id":product_id
                 },
-                success: function ()
+                success: function (res)
                 {
-                    console.log('111');
+                    console.log(res);
+                    $('.success-message').text(res.message);
+
+                    if($('.cart-count').text() == ''){
+                        $('.cart-count').text(1)
+                    }else{
+                        $('.cart-count').text(res.count);
+                    }
                 }
             });
         });
+
+        $("#varient").change(function(){
+
+            $('.product-price').text("$"+$(this).find(':selected').data('price'));
+        })
     </script>
 @endpush
