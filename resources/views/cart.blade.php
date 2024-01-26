@@ -15,7 +15,7 @@
                                         <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
                                         <h6 class="mb-0 text-muted">3 items</h6>
                                     </div>
-                                    @dump($products)
+                                    {{-- @dump($products) --}}
                                     <hr class="my-4">
 
                                     @foreach($products as $product)
