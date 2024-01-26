@@ -22,21 +22,21 @@
                                     @php
                                         $product_data = \App\Models\Product::find($product['product_id']);
                                     @endphp
-                                    
+
                                     <div class="row mb-4 d-flex justify-content-between align-items-center">
                                         <div class="col-md-2 col-lg-2 col-xl-2">
                                             <img src="{{$product_data->image}}" class="img-fluid rounded-3" alt="Cotton T-shirt">
                                         </div>
                                         <div class="col-md-3 col-lg-3 col-xl-3">
                                             <h6 class="text-muted">{{$product_data->name}}</h6>
-                                            <h6 class="text-black mb-0">{{$product_data->description}}</h6>
+                                            <h6 class="text-black mb-0">{{$product['size']}}</h6>
                                         </div>
                                         <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                            <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                            <button class="btn btn-link px-2 add-item-to-cart" data-size="{{$product['size']}}" data-product-id="{{$product['product_id']}}" data-url="{{route('cart.store')}}" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                                 <i class="fas fa-minus"></i>
                                             </button>
-                                            <input id="form1" min="0" name="quantity" value="{{$product['quantity']}}" type="number" class="form-control form-control-sm" style="width:100px;" />
-                                            <button class="btn btn-link px-2" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                            <input id="quantity_{{$product['product_id']}}_{{$product['size']}}" min="0" name="quantity" value="{{$product['quantity']}}" type="number" class="form-control form-control-sm" style="width:100px;" />
+                                            <button class="btn btn-link px-2 add-item-to-cart" data-size="{{$product['size']}}" data-product-id="{{$product['product_id']}}" data-url="{{route('cart.store')}}" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
@@ -100,3 +100,32 @@
 </section>
 
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $('body').on('click','.add-item-to-cart',function(){
+            console.log($('meta[name="_token"]').attr('content'));
+            var url = $(this).data('url');
+            var product_id = $(this).data('product-id');
+            var size =  $(this).data('size');
+            var quantity = $('#quantity_'+$(this).data('product-id')+'_'+$(this).data('size')).val();
+            console.log('#quantity_'+$(this).data('product-id')+'_'+$(this).data('size'));
+            console.log(quantity);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: "JSON",
+                data: {
+                    "_token": $('meta[name="_token"]').attr('content'),
+                    "quantity":quantity,
+                    "size":size,
+                    "product_id":product_id
+                },
+                success: function ()
+                {
+                    console.log('111');
+                }
+            });
+        });
+    </script>
+@endpush
