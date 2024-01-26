@@ -27,8 +27,8 @@
                             <td>{{$category->title}}</td>
                             <td>{{$category->description}}</td>
                             <td>
-                                <a href="" class="btn btn-primary">Edit</a>
-                                <a href="" class="btn btn-danger">Delete</a>
+                                <a href="{{route('categories.edit',$category)}}" class="btn btn-primary">Edit</a>
+                                <a href="" class="btn btn-danger delete" data-url="{{route('categories.destroy',$category)}}">Delete</a>
                             </td>
                         </tr>
                         @endforeach
@@ -46,8 +46,10 @@
 	<link rel="stylesheet" href="{{asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 	<link rel="stylesheet" href="{{asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
 	<link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
+
 @endpush
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="{{asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
 
 	<script>
@@ -55,7 +57,7 @@
     $("#example1").DataTable({
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,
@@ -66,5 +68,38 @@
       "responsive": true,
     });
   });
+
+  $('body').on('click','.delete',function(e){
+    e.preventDefault();
+    var url = $(this).data('url');
+    Swal.fire({
+      title: "Do you want to delete?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Yes",
+      denyButtonText: `No`
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: "JSON",
+            data: {
+                "_method": 'DELETE',
+                "_token": $('meta[name="_token"]').attr('content'),
+            },
+            success: function ()
+            {
+                Swal.fire("Deleted!", "", "success");
+                location.reload()
+            }
+        });
+      } else if (result.isDenied) {
+        // Swal.fire("Changes are not saved", "", "info");
+      }
+    });
+  })
 </script>
 @endpush

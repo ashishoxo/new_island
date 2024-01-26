@@ -69,7 +69,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+        return view('admin.products.edit')->with(['product'=>$product,'categories'=>$categories]);
     }
 
     /**
@@ -78,6 +79,36 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         //
+
+        $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required',
+            'image' => 'file|mimes:jpg,png|max:12000',
+        ]);
+
+        if($request->has('image')){
+            $path = \Storage::disk('s3')->put('products', $request->image);
+
+            $product->update([
+                "category_id" => $request->category,
+                "name" => $request->name,
+                "description" => $request->description,
+                "image" => $path,
+                "is_available" => 1
+            ]);
+        }else{
+            $product->update([
+                "category_id" => $request->category,
+                "name" => $request->name,
+                "description" => $request->description
+            ]);
+        }
+
+        $product->varients()->delete();        
+
+        $product->varients()->createMany($request->varient);
+
+        return redirect()->route('products.index');
     }
 
     /**
@@ -85,6 +116,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return response()->json([
+            'status' => true
+        ]);
     }
 }

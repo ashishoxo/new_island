@@ -6,6 +6,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="_token" content="{{ csrf_token() }}">
         <title>Freelancer - Start Bootstrap Theme</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
@@ -43,7 +44,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item mx-0 mx-lg-1"><a href="{{route('cart')}}" class="nav-link py-3 px-0 px-lg-3 rounded"><ion-icon name="cart-outline" class="icon-size"></ion-icon>Cart</a></li>
+                        <li class="nav-item mx-0 mx-lg-1"><a href="{{route('cart.index')}}" class="nav-link py-3 px-0 px-lg-3 rounded"><ion-icon name="cart-outline" class="icon-size"></ion-icon>Cart</a></li>
                         @guest
                         <li class="nav-item mx-0 mx-lg-1"><a href="{{route('register')}}" class="nav-link py-3 px-0 px-lg-3 rounded"><ion-icon name="reader-outline" class="icon-size"></ion-icon>Register</a></li>
                         <li class="nav-item mx-0 mx-lg-1"><a href="{{route('login')}}" class="nav-link py-3 px-0 px-lg-3 rounded"><ion-icon name="log-in-outline" class="icon-size"></ion-icon>Login</a></li>
@@ -114,14 +115,12 @@
             <div class="container"><small>Copyright &copy; Your Website 2023</small></div>
         </div>
 
+        <script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="{{asset('js/scripts.js')}}"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+        
+        @stack('scripts')
     </body>
 </html>

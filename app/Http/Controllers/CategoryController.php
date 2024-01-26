@@ -58,24 +58,49 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit')->with(['category'=>$category]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'image' => 'file|mimes:jpg,png|max:12000',
+        ]);
+
+        if($request->has('image')){
+            $path = \Storage::disk('s3')->put('categories', $request->image);
+            $category->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'image' => $path,
+            ]);
+        }else{
+            $category->update([
+                'title' => $request->title,
+                'description' => $request->description
+            ]);
+        }
+
+        return redirect()->route('categories.index');
+            
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return response()->json([
+            'status' => true
+        ]);
     }
 }

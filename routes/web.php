@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/cart', function () {
-    return view('cart');
-})->name('cart');
+// Route::get('/cart', function () {
+//     return view('cart');
+// })->name('cart');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -31,6 +31,10 @@ Route::post('/admin/login', [App\Http\Controllers\AdminAuth\LoginController::cla
 Route::middleware(['auth:web'])->group(function () {
     // Routes accessible to regular users
 });
+
+Route::resources([
+    'cart' => App\Http\Controllers\CartItemController::class
+]);
 
 Route::middleware(['auth:admin'])->prefix('admin/')->group(function () {
     
