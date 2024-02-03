@@ -59,7 +59,7 @@
                                 if(isset($_SESSION['new_cart']))
                                     $count = count($_SESSION['new_cart']);
                             @endphp
-                            <span class="cart-count">{{$count}}</span>
+                            <span class="cart-count">{{($count)?$count:''}}</span>
                         </a></li>
                         @guest
                         <li class="nav-item mx-0 mx-lg-1"><a href="{{route('register')}}" class="nav-link py-3 px-0 px-lg-3 rounded"><ion-icon name="reader-outline" class="icon-size"></ion-icon>Register</a></li>

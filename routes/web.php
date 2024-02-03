@@ -34,6 +34,10 @@ Route::resources([
     'cart' => App\Http\Controllers\CartItemController::class
 ]);
 
+Route::post('/cart/delete-item', [App\Http\Controllers\CartItemController::class, 'deleteItem'])->name('delete.item');
+
+Route::post('/cart/total-summary', [App\Http\Controllers\CartItemController::class, 'totalSummary'])->name('total.summary');
+
 Route::middleware(['auth:admin'])->prefix('admin/')->group(function () {
     
     Route::get('dashboard', function(){

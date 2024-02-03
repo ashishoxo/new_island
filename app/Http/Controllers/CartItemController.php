@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -30,7 +31,9 @@ class CartItemController extends Controller
             $products = \Auth::user()->cartItems->toArray();
         }
 
-        return view('cart')->with(['products'=>$products]);
+        $totalSummary = $this->totalSummary();
+
+        return view('cart')->with(['products'=>$products,'total_summary'=>$totalSummary]);
     }
 
     /**
@@ -95,10 +98,7 @@ class CartItemController extends Controller
 
                     if($cartItem->product_id == $request->product_id && $cartItem->size == $request->size){
 
-                        CartItem::where([
-                            'product_id' => $request->product_id,
-                            'size' => $request->size
-                        ])->update([
+                        $cartItem->update([
                             'quantity' => $request->quantity
                         ]);
 
@@ -153,5 +153,55 @@ class CartItemController extends Controller
     public function destroy(CartItem $cartItem)
     {
         //
+    }
+
+
+    public function deleteItem(Request $request)
+    {
+        if(\Auth::user()){
+
+            \Auth::user()->cartItems()->detach(\Auth::user()->cartItems()->where(["product_id"=>$request->product_id,"size"=>$request->size])->first()->id);
+        }
+
+        $session_products =  $_SESSION;   
+        
+        if(isset($session_products['new_cart'])){
+
+            foreach ($session_products['new_cart'] as $key => $product) {
+                // dump(1);
+                if($product['product_id'] == $request->product_id && $product['size'] == $request->size){
+                    // dump(2);
+                    unset($session_products['new_cart'][$key]);
+                                        
+                }
+            }
+        
+        }
+
+        $_SESSION['new_cart'] = $session_products['new_cart'];
+
+        return new JsonResponse(["status"=>"success","message"=>"Product has been removed from the cart.","count"=>count($_SESSION['new_cart'])], 200);
+        
+            
+    }
+
+    public function totalSummary()
+    {
+        if(\Auth::user()){
+
+            $cartItems = \Auth::user()->cartItems;
+
+            foreach ($cartItems as $key => $item) {
+                
+                $product = Product::find($item->product_id);
+                
+                dd($product);
+            }
+
+        }else{
+
+
+        }
+        
     }
 }
