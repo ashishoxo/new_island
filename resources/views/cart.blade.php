@@ -2,11 +2,19 @@
 
 @section('content')
 
+
 <section class="page-section">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-12">
                 <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                    @if(Session::has('order_placed'))
+                    <div class="text-center pb-5">
+                        <i style="font-size:200px" class="fa fa-check-circle m-5 text-success" aria-hidden="true"></i>
+                        <br>
+                        Order has been placed successfully.
+                    </div>
+                    @else
                     <div class="card-body p-0">
                         <div class="row g-0">
                             <div class="col-lg-8">
@@ -15,7 +23,7 @@
                                         <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
                                         <h6 class="mb-0 text-muted">{{count($products)}} items</h6>
                                     </div>
-                                    @dump($products)
+                                    {{-- @dump($total_summary) --}}
                                     <hr class="my-4">
 
                                     @foreach($products as $product)
@@ -64,35 +72,37 @@
                                     <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
                                     <hr class="my-4">
                                     <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="text-uppercase">items 3</h5>
-                                        <h5>$ 132.00</h5>
+                                        <h5 class="text-uppercase">items {{$total_summary['count']}}</h5>
+                                        <h5 class="total-amount">$ {{$total_summary['amount']}}</h5>
                                     </div>
-                                    <h5 class="text-uppercase mb-3">Shipping</h5>
+                                    <h5 class="text-uppercase mb-3">Delivery Address</h5>
                                     <div class="mb-4 pb-2">
                                         <select class="select">
-                                            <option value="1">Standard-Delivery- $5.00</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                            <option value="4">Four</option>
+                                            <option value="1">Default Address</option>
                                         </select>
                                     </div>
-                                    <h5 class="text-uppercase mb-3">Give code</h5>
+                                    {{-- <h5 class="text-uppercase mb-3">Give code</h5>
                                     <div class="mb-5">
                                         <div class="form-outline">
                                             <input type="text" id="form3Examplea2" class="form-control form-control-lg" />
                                             <label class="form-label" for="form3Examplea2">Enter your code</label>
                                         </div>
                                     </div>
-                                    <hr class="my-4">
+                                    <hr class="my-4"> --}}
                                     <div class="d-flex justify-content-between mb-5">
                                         <h5 class="text-uppercase">Total price</h5>
-                                        <h5>$ 137.00</h5>
+                                        <h5 class="total-amount">$ {{$total_summary['amount']}}</h5>
                                     </div>
-                                    <button type="button" class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark">Register</button>
+                                    @if(auth()->user())
+                                    <a type="button" class="btn btn-dark btn-block btn-lg place-order" data-mdb-ripple-color="dark">Place Order</a>
+                                    @else
+                                    <a href="{{route('register')}}" type="button" class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark">Register</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -124,10 +134,27 @@
                 success: function ()
                 {
                     console.log($(text_field).parent().parent().find('.product-price').text($(text_field).parent().parent().find('.product-price').data('unit-price') * quantity));
+                    sync_total();
                     
                 }
             });
         });
+
+        $('body').on('click','.place-order',function(){
+            $.ajax({
+                url: '{{route('place.order')}}',
+                type: 'POST',
+                dataType: "JSON",
+                data: {
+                    "_token": $('meta[name="_token"]').attr('content')
+                },
+                success: function (res)
+                {
+                    // console.log(res);
+                    window.location.reload();
+                }
+            });
+        })
 
         $('body').on('click','.delete-item-from-cart',function(){
             // console.log($('meta[name="_token"]').attr('content'));
@@ -153,7 +180,24 @@
                     if(response.status == "success"){
                         jQthis.closest('.cart-product-row').remove();
                         $('.cart-count').text(response.count);
-                    }            
+                    }         
+                    sync_total();   
+                }
+            });
+        }
+
+        function sync_total() {
+            $.ajax({
+                url: '{{route('total.summary')}}',
+                type: 'POST',
+                dataType: "JSON",
+                data: {
+                    "_token": $('meta[name="_token"]').attr('content'),
+                },
+                success: function (response)
+                {
+                    console.log(response);    
+                    $('.total-amount').text('$ '+response.amount);       
                 }
             });
         }

@@ -12,7 +12,7 @@ class CartItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         if(empty(\Auth::user())){
@@ -31,7 +31,7 @@ class CartItemController extends Controller
             $products = \Auth::user()->cartItems->toArray();
         }
 
-        $totalSummary = $this->totalSummary();
+        $totalSummary = $this->totalSummary($request);
 
         return view('cart')->with(['products'=>$products,'total_summary'=>$totalSummary]);
     }
@@ -185,23 +185,58 @@ class CartItemController extends Controller
             
     }
 
-    public function totalSummary()
+    public function totalSummary(Request $request)
     {
+        $cartCount = 0;
+        $totalAmount = 0; 
+
         if(\Auth::user()){
 
             $cartItems = \Auth::user()->cartItems;
+
+            $cartCount = $cartItems->count();
 
             foreach ($cartItems as $key => $item) {
                 
                 $product = Product::find($item->product_id);
                 
-                dd($product);
+                $unitPrice = $product->varients()->where('size',$item->size)->first()->price;
+
+                $totalAmount += ($unitPrice * $item->quantity);
             }
 
         }else{
 
+            $session_products =  $_SESSION;   
 
+            if(isset($session_products['new_cart'])){
+
+                $cartCount = count($session_products['new_cart']);
+                foreach ($session_products['new_cart'] as $key => $item) {
+                    // dump(1);
+
+                    $product = Product::find($item['product_id']);
+                
+                    $unitPrice = $product->varients()->where('size',$item['size'])->first()->price;
+
+                    $totalAmount += ($unitPrice * $item['quantity']);
+                }
+            
+            }
         }
+
+        $result =  [
+            'count' => $cartCount,
+            'amount' => $totalAmount
+        ];
+
+        if($request->wantsJson()){
+
+            return new JsonResponse($result, 200);
+        }else{
+            return $result;
+        }
+        
         
     }
 }

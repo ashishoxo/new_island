@@ -38,6 +38,8 @@ Route::post('/cart/delete-item', [App\Http\Controllers\CartItemController::class
 
 Route::post('/cart/total-summary', [App\Http\Controllers\CartItemController::class, 'totalSummary'])->name('total.summary');
 
+Route::post('/place-order', [App\Http\Controllers\OrderController::class, 'placeOrder'])->name('place.order');
+
 Route::middleware(['auth:admin'])->prefix('admin/')->group(function () {
     
     Route::get('dashboard', function(){
