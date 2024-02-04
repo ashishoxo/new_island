@@ -72,6 +72,15 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}">
+                                    Orders
+                                </a>
+                                <a class="dropdown-item" href="{{ route('user.profile') }}">
+                                    Profile
+                                </a>
+                                <a class="dropdown-item" href="{{ route('logout') }}">
+                                    Addresses
+                                </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                    onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
