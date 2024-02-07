@@ -65,6 +65,14 @@ class OrderController extends Controller
 
     public function placeOrder(Request $request)
     {
+        dd(\Auth::user()->cartItems);
+
+        foreach (\Auth::user()->cartItems as $key => $item) {
+            
+            // \Auth::user()->order()->create([
+            //     ""
+            // ]);            
+        }
         \Auth::user()->cartItems()->detach();
         unset($_SESSION['new_cart']);
         \Session::flash('order_placed', 'This is a message!'); 

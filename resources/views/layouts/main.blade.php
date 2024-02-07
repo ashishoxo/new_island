@@ -78,7 +78,7 @@
                                 <a class="dropdown-item" href="{{ route('user.profile') }}">
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="{{ route('logout') }}">
+                                <a class="dropdown-item" href="{{ route('user.addresses') }}">
                                     Addresses
                                 </a>
                                 <a class="dropdown-item" href="{{ route('logout') }}"

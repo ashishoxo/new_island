@@ -33,7 +33,9 @@ class CartItemController extends Controller
 
         $totalSummary = $this->totalSummary($request);
 
-        return view('cart')->with(['products'=>$products,'total_summary'=>$totalSummary]);
+        $addresses = \Auth::user()->addresses;
+
+        return view('cart')->with(['products'=>$products,'total_summary'=>$totalSummary,'addresses'=>$addresses]);
     }
 
     /**

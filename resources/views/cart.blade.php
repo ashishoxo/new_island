@@ -78,7 +78,9 @@
                                     <h5 class="text-uppercase mb-3">Delivery Address</h5>
                                     <div class="mb-4 pb-2">
                                         <select class="select">
-                                            <option value="1">Default Address</option>
+                                            @foreach($addresses as $address)
+                                            <option {{($address->is_default == 1)?"selected":""}} value="{{$address->id}}">{{$address->line1}}, {{$address->line2}}, {{$address->city}}, {{$address->state}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     {{-- <h5 class="text-uppercase mb-3">Give code</h5>

@@ -3,22 +3,27 @@
 @section('content')
 <section class="page-section">
     <div class="container">
+        @if(session()->has('message'))
+            <div class="alert alert-success">
+                {{ session()->get('message') }}
+            </div>
+        @endif
         <div class="row ">
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-header">{{ __('Add New Address') }}</div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('user.profile') }}">
+                        <form method="POST" action="{{ route('user.address.store') }}">
                             @csrf
 
                             <div class="row mb-3">
-                                <label for="first_name" class="col-md-4 col-form-label text-md-end">{{ __('Address Line 1') }}</label>
+                                <label for="line1" class="col-md-4 col-form-label text-md-end">{{ __('Address Line 1') }}</label>
 
                                 <div class="col-md-6">
-                                    <input disabled id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ @$authUser->first_name }}" required autocomplete="first_name" autofocus>
+                                    <input id="line1" type="text" class="form-control" name="line1" required>
 
-                                    @error('first_name')
+                                    @error('line1')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -27,12 +32,12 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="last_name" class="col-md-4 col-form-label text-md-end">{{ __('Address Line 2') }}</label>
+                                <label for="line2" class="col-md-4 col-form-label text-md-end">{{ __('Address Line 2') }}</label>
 
                                 <div class="col-md-6">
-                                    <input disabled id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ @$authUser->last_name }}" required autocomplete="last_name" autofocus>
+                                    <input id="line2" type="text" class="form-control" name="line2" required>
 
-                                    @error('last_name')
+                                    @error('line2')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -41,12 +46,12 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('City') }}</label>
+                                <label for="city" class="col-md-4 col-form-label text-md-end">{{ __('City') }}</label>
 
                                 <div class="col-md-6">
-                                    <input disabled id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ @$authUser->username }}" required autocomplete="username">
+                                    <input id="city" type="text" class="form-control" name="city">
 
-                                    @error('username')
+                                    @error('city')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -55,12 +60,12 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('State') }}</label>
+                                <label for="state" class="col-md-4 col-form-label text-md-end">{{ __('State') }}</label>
 
                                 <div class="col-md-6">
-                                    <input disabled id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ @$authUser->email }}" required autocomplete="email">
+                                    <input id="state" type="text" class="form-control" name="state">
 
-                                    @error('email')
+                                    @error('state')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -69,12 +74,12 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('ZIP') }}</label>
+                                <label for="zip" class="col-md-4 col-form-label text-md-end">{{ __('ZIP') }}</label>
 
                                 <div class="col-md-6">
-                                    <input disabled id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ @$authUser->email }}" required autocomplete="email">
+                                    <input id="zip" type="text" class="form-control" name="zip">
 
-                                    @error('email')
+                                    @error('zip')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -83,12 +88,27 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Country') }}</label>
+                                <label for="country" class="col-md-4 col-form-label text-md-end">{{ __('Country') }}</label>
 
                                 <div class="col-md-6">
-                                    <input disabled id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ @$authUser->email }}" required autocomplete="email">
+                                    <input id="country" type="text" class="form-control" name="country">
 
-                                    @error('email')
+                                    @error('country')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+
+                            <div class="row mb-3">
+                                <label for="phone_no" class="col-md-4 col-form-label text-md-end">{{ __('Phone no') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="phone_no" type="text" class="form-control" name="phone_no">
+
+                                    @error('phone_no')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -109,35 +129,37 @@
                 </div>
             </div>
             <div class="col-md-8">
+
+                @foreach($addresses as $key => $address)
                 <div class="card p-3 mb-3">
-                    Address line 1
+                    {{$address->line1}}
                     <br>
-                    Address line 2
+                    {{$address->line2}}
                     <br>
-                    City,
+                    {{$address->city}},
                     <br>
-                    State
+                    {{$address->state}}
                     <br>
-                    Country
+                    {{$address->country}}
                     <br>
-                    Zip
-                    <span class="position-absolute text-success" style="right: 20px;">Default Address</span>
-                    {{-- <button class="position-absolute btn btn-primary" style="right: 20px;">Make Default</button> --}}
+                    {{$address->zip}}
+                    <br>
+                    {{$address->phone_no}}
+
+                    @if($address->is_default == 1)
+                        <span class="position-absolute text-success" style="right: 20px;">Default Address</span>
+                    @else
+                        <button class="position-absolute btn btn-primary" style="right: 20px;" onclick="event.preventDefault();
+                                                 document.getElementById('make_default_{{$key}}').submit();">Make Default</button>
+                        <form id="make_default_{{$key}}" action="{{ route('make.address.default') }}" method="POST" class="d-none">
+                            @csrf
+                            <input type="hidden" name="address_id" value="{{$address->id}}">
+                        </form>
+                    @endif
+                    
                 </div>
-                <div class="card p-3 mb-3">
-                    Address line 1
-                    <br>
-                    Address line 2
-                    <br>
-                    City,
-                    <br>
-                    State
-                    <br>
-                    Country
-                    <br>
-                    Zip
-                    <button class="position-absolute btn btn-primary" style="right: 20px;">Make Default</button>
-                </div>
+                
+                @endforeach
             </div>
         </div>
     </div>
