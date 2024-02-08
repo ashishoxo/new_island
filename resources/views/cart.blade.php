@@ -75,14 +75,16 @@
                                         <h5 class="text-uppercase">items {{$total_summary['count']}}</h5>
                                         <h5 class="total-amount">$ {{$total_summary['amount']}}</h5>
                                     </div>
+                                    @if(auth()->user())
                                     <h5 class="text-uppercase mb-3">Delivery Address</h5>
                                     <div class="mb-4 pb-2">
-                                        <select class="select">
+                                        <select id="address_id" class="select form-control">
                                             @foreach($addresses as $address)
                                             <option {{($address->is_default == 1)?"selected":""}} value="{{$address->id}}">{{$address->line1}}, {{$address->line2}}, {{$address->city}}, {{$address->state}}</option>
                                             @endforeach
                                         </select>
                                     </div>
+                                    @endif
                                     {{-- <h5 class="text-uppercase mb-3">Give code</h5>
                                     <div class="mb-5">
                                         <div class="form-outline">
@@ -143,12 +145,14 @@
         });
 
         $('body').on('click','.place-order',function(){
+            var address_id = $('#address_id').val();
             $.ajax({
                 url: '{{route('place.order')}}',
                 type: 'POST',
                 dataType: "JSON",
                 data: {
-                    "_token": $('meta[name="_token"]').attr('content')
+                    "_token": $('meta[name="_token"]').attr('content'),
+                    "address_id":address_id
                 },
                 success: function (res)
                 {

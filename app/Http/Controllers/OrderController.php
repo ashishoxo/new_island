@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -12,7 +13,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        return view('orders');
     }
 
     /**
@@ -65,14 +66,27 @@ class OrderController extends Controller
 
     public function placeOrder(Request $request)
     {
-        dd(\Auth::user()->cartItems);
+        // dd($request->all());
+        // dd(\Auth::user()->cartItems);
 
-        foreach (\Auth::user()->cartItems as $key => $item) {
-            
-            // \Auth::user()->order()->create([
-            //     ""
-            // ]);            
-        }
+        $addresses =  Address::where('id',$request->address_id)->first();
+
+        $order = \Auth::user()->orders()->create([
+            "status" => "ordered",
+            "is_available" => 1,
+            "delivery_address" => $addresses->line1.", ".$addresses->line2.", ".$addresses->city.", ".$addresses->state.", ".$addresses->country.", ".$addresses->line2.", ".$addresses->zip,
+            "phone_no" => $addresses->phone_no, 
+        ]); 
+
+        $cart_items = \Auth::user()->cartItems->toArray();
+
+        unset($cart_items['id']);
+        unset($cart_items['created_at']);
+        unset($cart_items['updated_at']);
+        unset($cart_items['pivot']);
+        
+        $order->orderItems()->createMany($cart_items);
+
         \Auth::user()->cartItems()->detach();
         unset($_SESSION['new_cart']);
         \Session::flash('order_placed', 'This is a message!'); 

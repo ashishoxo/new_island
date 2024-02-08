@@ -15,6 +15,9 @@ class CartItemController extends Controller
     public function index(Request $request)
     {
         //
+
+        $addresses = [];
+
         if(empty(\Auth::user())){
             
 
@@ -29,11 +32,13 @@ class CartItemController extends Controller
             // dd($session_products);
         }else{
             $products = \Auth::user()->cartItems->toArray();
+
+            $addresses = \Auth::user()->addresses;
         }
 
         $totalSummary = $this->totalSummary($request);
 
-        $addresses = \Auth::user()->addresses;
+        
 
         return view('cart')->with(['products'=>$products,'total_summary'=>$totalSummary,'addresses'=>$addresses]);
     }

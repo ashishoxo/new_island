@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/addresses', [App\Http\Controllers\UserController::class, 'addresses'])->name('user.addresses');
     Route::post('/address/store', [App\Http\Controllers\UserController::class, 'addressStore'])->name('user.address.store');
     Route::post('/address/default', [App\Http\Controllers\UserController::class, 'makeAddressDefault'])->name('make.address.default');
+    Route::get('/orders', [App\Http\Controllers\OrderController::class, 'index'])->name('user.orders');
 });
 
 Route::middleware(['auth:admin'])->prefix('admin/')->group(function () {
