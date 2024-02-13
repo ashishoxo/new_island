@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->enum('status', ['ordered', 'under_process','shipped','out_for_delivery','delivered']);
+            $table->enum('status', ['ordered','under_process','shipped','out_for_delivery','delivered']);
             $table->boolean('is_available');
             $table->text('delivery_address');
             $table->string('phone_no');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -13,7 +14,18 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return view('orders');
+        if(\Auth::guard()->name == "admin"){
+
+            $orders = Order::orderBy('created_at','desc')->get();
+            // dd($orders);
+            return view('admin.orders.list')->with(['orders'=>$orders]);
+        }else{
+
+            $orders = auth()->user()->orders()->orderBy('created_at','desc')->get();
+            return view('orders')->with(['orders'=>$orders]);
+        }
+        
+        
     }
 
     /**
@@ -37,7 +49,8 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $order = Order::find($id);
+        return view('admin.orders.show')->with(['order'=>$order]);
     }
 
     /**

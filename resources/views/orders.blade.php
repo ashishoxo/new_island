@@ -10,19 +10,21 @@
 
                     <div class="card-body">
                         <ul class="list-group">
+                        	@foreach($orders as $order)
 						  	<li class="list-group-item d-flex justify-content-between align-items-center row">
 						   		
 						   			<div class="col-md-6">
-						   				Order Id: 12 (5 Items)
+						   				Order Id: {{$order->id}} ({{$order->orderItems->count()}} Items)
 						   			</div>	
 						   			<div class="col-md-3">
-						   				2 hours ago
+						   				{{$order->created_at->diffforhumans()}}
 						   			</div>	
 						   			<div class="col-md-3 ">
 						   				<a class="btn btn-primary ">View Details</a>
 						   			</div>	
 						   		
 						  	</li>
+						  	@endforeach
 						</ul>
                     </div>
                 </div>

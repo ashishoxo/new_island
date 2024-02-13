@@ -84,6 +84,13 @@
                   
                     </ul>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{{route('orders.index')}}" class="nav-link">
+                        <i class="fas fa-tachometer-alt nav-icon"></i>
+                        <p>Orders</p>
+                    </a>
+                </li>
            
             </ul>
         </nav>
