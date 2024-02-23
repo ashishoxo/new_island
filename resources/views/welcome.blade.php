@@ -4,6 +4,12 @@
 <!-- Portfolio Section-->
 <section class="page-section portfolio" id="portfolio">
     <div class="container">
+        @if (session('status'))
+            <div class="alert alert-success" role="alert">
+                
+                {{ session('status') }}
+            </div>
+        @endif
         <!-- Portfolio Section Heading-->
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Categories</h2>
         <!-- Icon Divider-->
@@ -14,12 +20,15 @@
         </div>
         <!-- Portfolio Grid Items-->
         <div class="row justify-content-center">
+            
             <!-- Portfolio Item 1-->
+            
             @php
                 $categories = \App\Models\Category::all();
                 // dd($categories);
             @endphp
 
+            
             @foreach($categories as $category)
             <div class="col-md-6 col-lg-4 mb-5" onclick="window.location='{{route('home.products',$category->id)}}';">
                 <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1" style="border:1px solid #e8e8e8">

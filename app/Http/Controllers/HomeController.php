@@ -25,6 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
+
+        
         return view('home');
     }
 
@@ -46,6 +48,10 @@ class HomeController extends Controller
 
     public function welcome()
     {
+        if(auth()->user()){
+
+            $this->syncCart();
+        }
         return view('welcome');
     }
 }
