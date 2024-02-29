@@ -43,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/place-order', [App\Http\Controllers\OrderController::class, 'placeOrder'])->name('place.order');
 
     Route::get('/profile', [App\Http\Controllers\UserController::class, 'profile'])->name('user.profile');
+    Route::post('/profile', [App\Http\Controllers\UserController::class, 'profileUpdate'])->name('user.profile');
     Route::get('/addresses', [App\Http\Controllers\UserController::class, 'addresses'])->name('user.addresses');
     Route::post('/address/store', [App\Http\Controllers\UserController::class, 'addressStore'])->name('user.address.store');
     Route::post('/address/default', [App\Http\Controllers\UserController::class, 'makeAddressDefault'])->name('make.address.default');

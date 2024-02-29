@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -12,6 +13,32 @@ class UserController extends Controller
         $authUser = \Auth::user();
 
         return view('profile')->with(['authUser'=>$authUser]);
+    }
+
+    public function profileUpdate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone_no' => 'required',
+            'password' => 'confirmed',
+            // 'password_confirmation' => 'required_with:password'
+        ]);
+ 
+        if ($validator->fails()) {
+            return \Redirect::back()
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+        if ($request->password == null) {
+            \Auth::user()->update($request->except('password'));
+        }else{
+            \Auth::user()->update($request->all());
+        }
+        
+        // dd(\Auth::user());
+        return \Redirect::back()->with('message', 'Profile has been updated!');;
     }
 
     public function addresses()

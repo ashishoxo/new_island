@@ -53,7 +53,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => ['required', 'string', 'max:255','regex:/^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/'],
             'last_name' => ['required', 'string', 'max:255','regex:/^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/'],
-            // 'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'phone_no' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'g-recaptcha-response' => ['recaptcha','required'],
@@ -72,7 +72,7 @@ class RegisterController extends Controller
         return User::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
-            // 'username' => $data['username'],
+            'phone_no' => $data['phone_no'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);

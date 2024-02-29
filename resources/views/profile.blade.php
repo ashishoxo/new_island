@@ -6,9 +6,15 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
+
                     <div class="card-header">{{ __('Profile') }}</div>
 
                     <div class="card-body">
+                        @if(session()->has('message'))
+                            <div class="alert alert-success">
+                                {{ session()->get('message') }}
+                            </div>
+                        @endif
                         <form method="POST" action="{{ route('user.profile') }}">
                             @csrf
 
@@ -16,7 +22,7 @@
                                 <label for="first_name" class="col-md-4 col-form-label text-md-end">{{ __('First Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input disabled id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ $authUser->first_name }}" required autocomplete="first_name" autofocus>
+                                    <input id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ $authUser->first_name }}" required autocomplete="first_name" autofocus>
 
                                     @error('first_name')
                                         <span class="invalid-feedback" role="alert">
@@ -30,7 +36,7 @@
                                 <label for="last_name" class="col-md-4 col-form-label text-md-end">{{ __('Last Name') }}</label>
 
                                 <div class="col-md-6">
-                                    <input disabled id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ $authUser->last_name }}" required autocomplete="last_name" autofocus>
+                                    <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ $authUser->last_name }}" required autocomplete="last_name" autofocus>
 
                                     @error('last_name')
                                         <span class="invalid-feedback" role="alert">
@@ -41,12 +47,12 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>
+                                <label for="phone_no" class="col-md-4 col-form-label text-md-end">{{ __('Phone Number') }}</label>
 
                                 <div class="col-md-6">
-                                    <input disabled id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ $authUser->username }}" required autocomplete="username">
+                                    <input id="phone_no" type="text" class="form-control @error('phone_no') is-invalid @enderror" name="phone_no" value="{{ $authUser->phone_no }}" required autocomplete="phone_no">
 
-                                    @error('username')
+                                    @error('phone_no')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -68,14 +74,36 @@
                                 </div>
                             </div>
 
+                            <div class="row mb-3">
+                                <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="new-password">
+
+                                    @error('password')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
+                                </div>
+                            </div>
+
                             
-                           {{--  <div class="row mb-0">
+                            <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Update') }}
                                     </button>
                                 </div>
-                            </div> --}}
+                            </div>
                         </form>
                     </div>
                 </div>

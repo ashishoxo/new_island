@@ -16,12 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->text('line1');
-            $table->text('line2');
+            $table->text('line2')->nullable();
             $table->string('city');
             $table->string('state');
             $table->string('zip');
             $table->string('country');
-            $table->string('phone_no');
+            $table->enum('type',['home','office','appartment','building']);
             $table->boolean('is_default');
             $table->timestamps();
         });

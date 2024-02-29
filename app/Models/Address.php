@@ -17,7 +17,7 @@ class Address extends Model
         "state",
         "zip",
         "country",
-        "phone_no",
+        "type",
         "is_default"
     ];
 }

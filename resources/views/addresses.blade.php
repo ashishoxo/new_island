@@ -35,7 +35,7 @@
                                 <label for="line2" class="col-md-4 col-form-label text-md-end">{{ __('Address Line 2') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="line2" type="text" class="form-control" name="line2" required>
+                                    <input id="line2" type="text" class="form-control" name="line2">
 
                                     @error('line2')
                                         <span class="invalid-feedback" role="alert">
@@ -103,12 +103,21 @@
 
 
                             <div class="row mb-3">
-                                <label for="phone_no" class="col-md-4 col-form-label text-md-end">{{ __('Phone no') }}</label>
+                                <label for="address_type" class="col-md-4 col-form-label text-md-end">{{ __('Address Type') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="phone_no" type="text" class="form-control" name="phone_no">
+                                    {{-- <input id="address_type" type="text" class="form-control" name="address_type"> --}}
 
-                                    @error('phone_no')
+                                    <select class="form-control" name="type">
+                                        <option disabled selected>Select Address</option>
+                                        <option value="home">Home</option>
+                                        <option value="office">Office</option>
+                                        <option value="appartment">Appartment</option>
+                                        <option value="building">Building</option>
+                                        
+                                    </select>
+
+                                    @error('address_type')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -129,7 +138,7 @@
                 </div>
             </div>
             <div class="col-md-8">
-
+                {{-- @dd($addresses) --}}
                 @foreach($addresses as $key => $address)
                 <div class="card p-3 mb-3">
                     {{$address->line1}}
@@ -144,7 +153,7 @@
                     <br>
                     {{$address->zip}}
                     <br>
-                    {{$address->phone_no}}
+                    {{$address->type}}
 
                     @if($address->is_default == 1)
                         <span class="position-absolute text-success" style="right: 20px;">Default Address</span>
