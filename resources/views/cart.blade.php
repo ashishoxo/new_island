@@ -43,13 +43,14 @@
                                             <button class="btn btn-link px-2 add-item-to-cart" data-size="{{$product['size']}}" data-product-id="{{$product['product_id']}}" data-url="{{route('cart.store')}}" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                                 <i class="fas fa-minus"></i>
                                             </button>
-                                            <input id="quantity_{{$product['product_id']}}_{{$product['size']}}" min="0" name="quantity" value="{{$product['quantity']}}" type="number" class="form-control form-control-sm" style="width:100px;" />
+                                            <input id="quantity_{{$product['product_id']}}_{{$product['size']}}" min="1" name="quantity" value="{{$product['quantity']}}" type="number" class="form-control form-control-sm" style="width:100px;" />
                                             <button class="btn btn-link px-2 add-item-to-cart" data-size="{{$product['size']}}" data-product-id="{{$product['product_id']}}" data-url="{{route('cart.store')}}" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
                                         <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                            <h6 class="mb-0 product-price" data-unit-price="{{$product_data->varients->where('size',$product['size'])->first()->price}}">{{$product_data->varients->where('size',$product['size'])->first()->price * $product['quantity']}}</h6>
+                                            <h6 class="mb-0 product-price" data-unit-price="{{$product_data->varients->where('size',$product['size'])->first()->price}}">${{$product_data->varients->where('size',$product['size'])->first()->price * $product['quantity']}}</h6>
+                                            ${{$product_data->varients->where('size',$product['size'])->first()->price." per unit"}}
                                         </div>
                                         <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                                             <a href="#!" class="text-muted delete-item-from-cart" data-size="{{$product['size']}}" data-product-id="{{$product['product_id']}}">
@@ -100,6 +101,7 @@
                                     @if(auth()->user())
                                     <a type="button" class="btn btn-dark btn-block btn-lg place-order" data-mdb-ripple-color="dark">Place Order</a>
                                     @else
+                                    <a href="{{route('login')}}" type="button" class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark">Login</a>
                                     <a href="{{route('register')}}" type="button" class="btn btn-dark btn-block btn-lg" data-mdb-ripple-color="dark">Register</a>
                                     @endif
                                 </div>
@@ -137,7 +139,7 @@
                 },
                 success: function ()
                 {
-                    console.log($(text_field).parent().parent().find('.product-price').text($(text_field).parent().parent().find('.product-price').data('unit-price') * quantity));
+                    console.log($(text_field).parent().parent().find('.product-price').text('$'+$(text_field).parent().parent().find('.product-price').data('unit-price') * quantity));
                     sync_total();
                     
                 }

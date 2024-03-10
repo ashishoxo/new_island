@@ -61,8 +61,8 @@
         </div>
         <!-- About Section Content-->
         <div class="row">
-            <div class="col-lg-4 ms-auto"><p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed venenatis libero. Etiam volutpat lobortis tellus in mollis. Nulla facilisi. Curabitur dapibus cursus congue. Sed pretium lobortis venenatis. Aliquam mattis felis a nisi tincidunt egestas. Nam efficitur euismod erat ultrices hendrerit.</p></div>
-            <div class="col-lg-4 me-auto"><p class="lead">Integer interdum nulla sed lacus consectetur, vitae molestie orci faucibus. Sed vitae finibus arcu. Etiam dignissim sollicitudin orci, eu accumsan dui commodo eu. Nunc nec arcu massa. Mauris pellentesque rhoncus enim at porttitor. Suspendisse potenti. Maecenas orci neque, dictum auctor sodales sed, sodales vel quam!</p></div>
+            <div class="col-lg-4 ms-auto"><p class="lead">{{@$data['about_left']->content}}</p></div>
+            <div class="col-lg-4 me-auto"><p class="lead">{{@$data['about_right']->content}}</p></div>
         </div>
         <!-- About Section Button-->
         

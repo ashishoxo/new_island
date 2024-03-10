@@ -88,7 +88,7 @@ class OrderController extends Controller
             "status" => "ordered",
             "is_available" => 1,
             "delivery_address" => $addresses->line1.", ".$addresses->line2.", ".$addresses->city.", ".$addresses->state.", ".$addresses->country.", ".$addresses->line2.", ".$addresses->zip,
-            "phone_no" => $addresses->phone_no, 
+            "phone_no" => \Auth::user()->phone_no, 
         ]); 
 
         $cart_items = \Auth::user()->cartItems->toArray();

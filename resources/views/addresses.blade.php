@@ -49,7 +49,7 @@
                                 <label for="city" class="col-md-4 col-form-label text-md-end">{{ __('City') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="city" type="text" class="form-control" name="city">
+                                    <input id="city" type="text" class="form-control" name="city" required>
 
                                     @error('city')
                                         <span class="invalid-feedback" role="alert">
@@ -63,7 +63,7 @@
                                 <label for="state" class="col-md-4 col-form-label text-md-end">{{ __('State') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="state" type="text" class="form-control" name="state">
+                                    <input id="state" type="text" class="form-control" name="state" required>
 
                                     @error('state')
                                         <span class="invalid-feedback" role="alert">
@@ -77,7 +77,7 @@
                                 <label for="zip" class="col-md-4 col-form-label text-md-end">{{ __('ZIP') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="zip" type="text" class="form-control" name="zip">
+                                    <input id="zip" type="text" class="form-control" name="zip" required>
 
                                     @error('zip')
                                         <span class="invalid-feedback" role="alert">
@@ -91,7 +91,7 @@
                                 <label for="country" class="col-md-4 col-form-label text-md-end">{{ __('Country') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="country" type="text" class="form-control" name="country">
+                                    <input id="country" type="text" class="form-control" name="country" required>
 
                                     @error('country')
                                         <span class="invalid-feedback" role="alert">

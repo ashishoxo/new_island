@@ -56,8 +56,12 @@
                         <li class="nav-item mx-0 mx-lg-1"><a href="{{route('cart.index')}}" class="nav-link py-3 px-0 px-lg-3 rounded position-relative"><ion-icon name="cart-outline" class="icon-size"></ion-icon>Cart
                             @php
                                 $count = null;
-                                if(isset($_SESSION['new_cart']))
-                                    $count = count($_SESSION['new_cart']);
+                                if(isset($_SESSION['new_cart'])){
+                                    $cart_array = array_column($_SESSION['new_cart'],'quantity');
+                                    $count = array_sum($cart_array);
+
+                                }
+                                    
                             @endphp
                             <span class="cart-count">{{($count)?$count:''}}</span>
                         </a></li>

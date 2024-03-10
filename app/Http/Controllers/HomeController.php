@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Content;
 
 class HomeController extends Controller
 {
@@ -50,8 +51,10 @@ class HomeController extends Controller
     {
         if(auth()->user()){
 
+
             $this->syncCart();
         }
-        return view('welcome');
+        $data = Content::get()->keyBy('slug');
+        return view('welcome')->with(['data'=>$data]);
     }
 }
