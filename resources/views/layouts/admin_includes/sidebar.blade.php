@@ -31,29 +31,29 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
    					with font-awesome or any other icon font library -->
-               
-                <li class="nav-item">
-                    <a href="{{route('admin.dashboard')}}" class="nav-link active">
+                
+                <li class="nav-item ">
+                    <a href="{{route('admin.dashboard')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/dashboard'])?'active':''}}">
                         <i class="fas fa-tachometer-alt nav-icon"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                <li class="nav-item {{in_array(request()->route()->uri, ['admin/categories','admin/categories/create','admin/categories/{category}/edit'])?'menu-open':''}}">
+                    <a href="#" class="nav-link {{in_array(request()->route()->uri, ['admin/categories','admin/categories/create','admin/categories/{category}/edit'])?'active':''}}">
+                        <i class="nav-icon fas fa-layer-group"></i>
                         <p> Categories <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('categories.index')}}" class="nav-link">
+                            <a href="{{route('categories.index')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/categories','admin/categories/{category}/edit'])?'active':''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All Categories</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('categories.create')}}" class="nav-link">
+                            <a href="{{route('categories.create')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/categories/create'])?'active':''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Category</p>
                             </a>
@@ -62,21 +62,22 @@
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                <li class="nav-item {{in_array(request()->route()->uri, ['admin/products','admin/products/create','admin/products/{product}/edit'])?'menu-open':''}}">
+                    <a href="#" class="nav-link {{in_array(request()->route()->uri, ['admin/products','admin/products/create','admin/products/{product}/edit'])?'active':''}}" >
+                        {{-- <i class=" fas fa-th"></i> --}}
+                        <i class="nav-icon fas fa-box"></i>
                         <p> Products <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{route('products.index')}}" class="nav-link">
+                            <a href="{{route('products.index')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/products','admin/products/{product}/edit'])?'active':''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All Products</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{route('products.create')}}" class="nav-link">
+                            <a href="{{route('products.create')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/products/create'])?'active':''}}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add Product</p>
                             </a>
@@ -84,11 +85,88 @@
                   
                     </ul>
                 </li>
-
+                <li class="nav-item {{in_array(request()->route()->uri, ['admin/users','admin/users/create','admin/users/{user}/edit'])?'menu-open':''}}">
+                    <a href="#" class="nav-link {{in_array(request()->route()->uri, ['admin/users','admin/users/create','admin/users/{user}/edit'])?'active':''}}">
+                        {{-- <i class=" fas fa-th"></i> --}}
+                        <i class="nav-icon fas fa-users"></i>
+                        <p> Users <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('users.index')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/users','admin/users/{user}/edit'])?'active':''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Users</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('users.create')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/users/create'])?'active':''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add User</p>
+                            </a>
+                        </li>
+                  
+                    </ul>
+                </li>
+                <li class="nav-item {{in_array(request()->route()->uri, ['admin/admins','admin/admins/create','admin/admins/{admin}/edit'])?'menu-open':''}}">
+                    <a href="#" class="nav-link {{in_array(request()->route()->uri, ['admin/admins','admin/admins/create','admin/admins/{admin}/edit'])?'active':''}}">
+                        {{-- <i class=" fas fa-th"></i> --}}
+                        <i class="nav-icon fas fa-user-tie"></i>
+                        <p> Admins <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('admins.index')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/admins','admin/admins/{admin}/edit'])?'active':''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Admins</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('admins.create')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/admins/create'])?'active':''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Admin</p>
+                            </a>
+                        </li>
+                  
+                    </ul>
+                </li>
+                <li class="nav-item {{in_array(request()->route()->uri, ['admin/payment-methods','admin/payment-methods/create','admin/payment-methods/{payment_method}/edit'])?'menu-open':''}}">
+                    <a href="#" class="nav-link {{in_array(request()->route()->uri, ['admin/payment-methods','admin/payment-methods/create','admin/payment-methods/{payment_method}/edit'])?'active':''}}">
+                        {{-- <i class=" fas fa-th"></i> --}}
+                        {{-- <i class="nav-icon fas fa-user-tie"></i> --}}
+                        <i class="nav-icon fas fa-credit-card"></i>
+                        <p> Payment Methods <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('payment-methods.index')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/payment-methods','admin/payment-methods/payment_method}/edit'])?'active':''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All payment methods</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('payment-methods.create')}}" class="nav-link {{in_array(request()->route()->uri, ['admin/payment-methods/create'])?'active':''}}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add payment method</p>
+                            </a>
+                        </li>
+                  
+                    </ul>
+                </li>
                 <li class="nav-item">
-                    <a href="{{route('orders.index')}}" class="nav-link">
-                        <i class="fas fa-tachometer-alt nav-icon"></i>
+                    <a href="{{route('orders.index')}}" class="nav-link {{request()->route()->uri}} {{in_array(request()->route()->uri, ['admin/orders'])?'active':''}}">
+                        {{-- <i class="fas fa-tachometer-alt "></i> --}}
+                        <i class="fas fa-box-open nav-icon"></i>
                         <p>Orders</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('carts.index')}}" class="nav-link {{request()->route()->uri}} {{in_array(request()->route()->uri, ['admin/carts'])?'active':''}}">
+
+                        <i class="fas fa-shopping-cart nav-icon"></i>
+                        <p>Carts</p>
                     </a>
                 </li>
                 <li class="nav-item">

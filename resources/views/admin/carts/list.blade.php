@@ -1,11 +1,11 @@
 @extends('layouts.admin')
-@section('title','Orders')
+@section('title','Carts')
 @section('content')
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">List of all orders</h3>
+                <h3 class="card-title">List of all carts</h3>
             </div>
                 
             
@@ -47,11 +47,10 @@
                 <table id="example1" class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Order ID</th>
+                            <th>Cart ID</th>
                             <th>No of items</th>
-                            <th>Ordered By</th>
-                            <th>Ordered Date</th>
-                            <th>Status</th>
+                            <th>Cart Owner</th>
+                            <th>Cart Created Date</th>
                             <th>Action(s)</th>
                        
                         </tr>
@@ -63,9 +62,7 @@
                             <td>{{$order->orderItems->count()}}</td>
                             <td>{{$order->user->email}}</td>
                             <td>{{$order->created_at->diffforhumans()}}</td>
-                            <td>
-                            	<span class="badge badge-success">{{$order->status}}</span>
-                            </td>
+                            
                             <td>
                                 <a href="{{route('orders.show',$order)}}" class="btn btn-primary">View Details</a>
                             </td>

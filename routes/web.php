@@ -60,6 +60,10 @@ Route::middleware(['auth:admin'])->prefix('admin/')->group(function () {
         'categories' => App\Http\Controllers\CategoryController::class,
         'products' => App\Http\Controllers\ProductController::class,
         'orders' => App\Http\Controllers\OrderController::class,
-        'content' => App\Http\Controllers\ContentController::class
+        'content' => App\Http\Controllers\ContentController::class,
+        'users' => App\Http\Controllers\UserController::class,
+        'admins' => App\Http\Controllers\AdminController::class,
+        'payment-methods' => App\Http\Controllers\PaymentMethodController::class,
+        'carts' => App\Http\Controllers\CartController::class,
     ]);
 });

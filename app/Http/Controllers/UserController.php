@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -67,5 +68,23 @@ class UserController extends Controller
         Address::where('id',$request->address_id)->update(["is_default"=>1]);
 
         return redirect()->back()->with('message', 'Default address changed!');       
+    }
+
+    public function index()
+    {
+        $users = User::all();
+        // dd($products);
+        return view('admin.users.list')->with(['users'=>$users]);
+    }
+
+    public function edit(User $user)
+    {
+       
+        return view('admin.users.edit')->with(['user'=>$user]);
+    }
+
+    public function create()
+    {
+        return view('admin.users.add');
     }
 }
